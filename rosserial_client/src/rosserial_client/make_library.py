@@ -389,10 +389,10 @@ class Message:
         f.write('\n')
 
     def _write_getType(self, f):
-        f.write('    const char * getType(){ return "%s/%s"; };\n'%(self.package, self.name))
+        f.write('    virtual const char * getType(){ return "%s/%s"; };\n'%(self.package, self.name))
 
     def _write_getMD5(self, f):
-        f.write('    const char * getMD5(){ return "%s"; };\n'%self.md5)
+        f.write('    virtual const char * getMD5(){ return "%s"; };\n'%self.md5)
 
     def _write_impl(self, f):
         f.write('  class %s : public ros::Msg\n' % self.name)
@@ -465,7 +465,7 @@ class Service:
         f.write('static const char %s[] = "%s/%s";\n'%(self.name.upper(), self.package, self.name))
 
         def write_type(out, name):
-            out.write('    const char * getType(){ return %s; };\n'%(name))
+            out.write('    virtual const char * getType(){ return %s; };\n'%(name))
         _write_getType = lambda out: write_type(out, self.name.upper())
         self.req._write_getType = _write_getType
         self.resp._write_getType = _write_getType
